@@ -11,8 +11,6 @@ class ParamRegex(regex: String) {
 
     init {
         nativeContext = init(regex)
-        Log.d("11324 :", "ParamRegex  ----> 0x" +
-                java.lang.Long.toHexString(nativeContext) + " " + nativeContext)
     }
 
     private external fun init(regex: String): Long

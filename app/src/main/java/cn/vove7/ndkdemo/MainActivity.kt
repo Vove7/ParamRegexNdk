@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 result_text.text = progress.toString()
@@ -34,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         try {
             val map = ParamRegex(reg_text.text.toString())
                     .match(match_text.text.toString())
+//            val map = "(扫描|识别)(屏幕(上的)?)?(二维码|条形?码)".toParamRegex().match("识别屏幕二维码");
+
             if (map == null) {
                 result_text.text = "匹配失败"
             } else {
@@ -46,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         val end = System.currentTimeMillis()
         result_text.append("\n耗时：${end - begin}ms")
     }
+
     //ndk 同一实例
     fun batchMatch1(v: View) {
         thread {

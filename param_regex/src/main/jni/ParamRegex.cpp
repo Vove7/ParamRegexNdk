@@ -18,7 +18,7 @@ class ParamRegex {
 public:
     wstring regex;
     vector<RegNode *> *regNodeList = nullptr;
-    int regIndex;
+    unsigned long regIndex;
     stack<GroupNode *> groupStack;
 
     ParamRegex(string r) {
@@ -48,7 +48,7 @@ public:
 
     vector<RegNode *> *buildRegNodeList() {
         auto *list = new vector<RegNode *>();
-        int l = regex.size();
+        unsigned long l = regex.size();
         StringBuilder<wchar_t> sb;
 
         while (regIndex < l) {
@@ -97,7 +97,7 @@ public:
                     GroupNode *backGroup = new GroupNode();
 
                     backGroup->subNodeList = backList;
-
+                    orNode->orList = new vector<RegNode*>();
                     linkBack(orNode->orList, preGroup);
                     linkBack(orNode->orList, backGroup);
                     list->clear();
