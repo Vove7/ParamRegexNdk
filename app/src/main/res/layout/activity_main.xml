@@ -25,6 +25,12 @@
         android:text="131好123啦38分二十五"
         app:layout_constraintTop_toBottomOf="@+id/reg_text" />
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/match_text" />
+
     <TextView
         android:id="@+id/result_text"
         android:layout_width="wrap_content"
@@ -32,16 +38,15 @@
         android:layout_marginTop="8dp"
         android:text="Hello World!"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/match_text" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
         android:id="@+id/do_match"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         android:onClick="doMatch"
         android:text="匹配"
-        app:layout_constraintTop_toBottomOf="@+id/match_text"
+        app:layout_constraintTop_toBottomOf="@+id/result_text"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button

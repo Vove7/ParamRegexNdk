@@ -1,7 +1,5 @@
 package cn.vove7.paramregex
 
-import android.util.Log
-
 /**
  * Created by 11324 on 2019/8/15
  */

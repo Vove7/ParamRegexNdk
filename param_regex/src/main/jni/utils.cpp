@@ -10,8 +10,13 @@
 #include "android/log.h"
 
 using namespace std;
-#define LOG_TAG  "PARAM_REGEX"
+//#define LOG_TAG  "PARAM_REGEX"
+
+#ifdef LOG_TAG
 #define LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#else
+#define LOGD(...)
+#endif
 
 void split(const string &s, vector<string> &sv, const char flag) {
     sv.clear();
