@@ -26,11 +26,19 @@ public:
         regIndex = 0;
     }
 
+    ~ParamRegex() {
+        if (!regNodeList->empty()) {
+            //删除第一个，next自动删除
+            delete (*regNodeList)[0];
+        }
+
+        delete regNodeList;
+    }
+
     void linkBack(vector<RegNode *> *list, RegNode *node) {
 
         RegNode *pre = get_or_null(list, list->size() - 1);
         if (pre != NULL) {
-            node->preNode = pre;
             pre->nextNode = node;
         }
         list->push_back(node);
@@ -97,7 +105,7 @@ public:
                     GroupNode *backGroup = new GroupNode();
 
                     backGroup->subNodeList = backList;
-                    orNode->orList = new vector<RegNode*>();
+                    orNode->orList = new vector<RegNode *>();
                     linkBack(orNode->orList, preGroup);
                     linkBack(orNode->orList, backGroup);
                     list->clear();

@@ -20,9 +20,11 @@ public:
     wstring matchValue;
     int minMatchCount;
     int maxMatchCount;
-    RegNode *preNode = NULL;
     RegNode *nextNode = NULL;
 
+    ~RegNode() {
+        delete nextNode;
+    }
     RegNode() {
         minMatchCount = 1;
         maxMatchCount = 1;
@@ -49,7 +51,7 @@ public:
                 minMatchCount = 0;
                 if (isParamNode()) {
                     maxMatchCount = MAX_INT;
-                }else {
+                } else {
                     maxMatchCount = 1;
                 }
                 break;
@@ -72,7 +74,6 @@ public:
                 }
                 return endIndex + 1;
             }
-                break;
             default: {
                 if (isParamNode()) {
                     minMatchCount = 0;
@@ -83,7 +84,6 @@ public:
                 }
                 return index;
             }
-                break;
         }
         return index + 1;
     }
@@ -109,11 +109,6 @@ public:
         return true;
     }
 
-    //TODO 数字字符
-    string numberValue() {
-        return ws2s(matchValue);
-    }
-
     int match(wstring s, int startIndex, RegNode *nextNode) {
         if (startIndex == s.size()) {
             if (minMatchCount == 0)
@@ -128,12 +123,12 @@ public:
     }
 
     int matchNumber(wstring s, int startIndex) {
-        int l = s.size();
+        auto l = s.size();
         wstring numArray = L"0123456789零一二两三四五六七八九十百千万";
         int endIndex = startIndex;
 
         while (endIndex < l) {
-            int i = numArray.find(s[endIndex]);
+            auto i = numArray.find(s[endIndex]);
             if (i != string::npos) {
                 endIndex++;
             } else {
@@ -195,6 +190,10 @@ public:
             : RegNode() {
     }
 
+    ~OrNode() {
+        delete orList;
+    }
+
     int match(wstring s, int startIndex, RegNode *nextNode) {
         if (startIndex == s.size()) {
             if (minMatchCount == 0)
@@ -242,7 +241,7 @@ public:
     }
 
     bool inRange(wchar_t c) {
-        int size = rangeList.size();
+        auto size = rangeList.size();
         for (int i = 0; i < size; i++) {
             if (rangeList[i].contains(c)) {
                 return true;
@@ -252,7 +251,7 @@ public:
     }
 
     int match(wstring s, int startIndex, RegNode *nextNode) {
-        int size = s.size();
+        auto size = s.size();
         if (startIndex >= size) {
             if (minMatchCount == 0)
                 return startIndex;
@@ -331,6 +330,10 @@ class GroupNode : public RegNode {
 
 public:
     vector<RegNode *> *subNodeList = NULL;
+
+    ~GroupNode() {
+        delete subNodeList;
+    }
 
     void setNodeList(vector<RegNode *> *l) {
         subNodeList = l;

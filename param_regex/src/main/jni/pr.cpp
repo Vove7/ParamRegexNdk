@@ -31,8 +31,15 @@ JNIEXPORT jobject JNICALL Java_cn_vove7_paramregex_ParamRegex_match
     catch (...){
         jclass clazz = env->FindClass("java/lang/Exception");
         env->ThrowNew(clazz, "未知错误");
-
     }
     return nullptr;
 }
+
+JNIEXPORT void JNICALL Java_cn_vove7_paramregex_ParamRegex_destroy
+        (JNIEnv *env, jobject obj, jlong cp) {
+    auto *pr = (ParamRegex *) cp;
+    delete pr;
+}
+
+
 }

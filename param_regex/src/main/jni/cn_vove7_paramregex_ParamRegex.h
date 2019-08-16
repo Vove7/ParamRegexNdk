@@ -23,6 +23,9 @@ JNIEXPORT jlong JNICALL Java_cn_vove7_paramregex_ParamRegex_init
 JNIEXPORT jobject JNICALL Java_cn_vove7_paramregex_ParamRegex_match
         (JNIEnv *, jobject, jlong, jstring);
 
+JNIEXPORT void JNICALL Java_cn_vove7_paramregex_ParamRegex_destroy
+        (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif

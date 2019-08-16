@@ -17,6 +17,13 @@ class ParamRegex(regex: String) {
         return match(nativeContext, text)
     }
 
+    fun finalize() {
+        destroy(nativeContext)
+    }
+
+    //释放jni对象
+    private external fun destroy(cp: Long)
+
     private external fun match(cp: Long, text: String): Map<String, String>
 
     companion object {
@@ -26,4 +33,5 @@ class ParamRegex(regex: String) {
     }
 
 }
+
 fun String.toParamRegex(): ParamRegex = ParamRegex(this)
