@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/Vove7/ParamRegexNdk.svg)](https://jitpack.io/#Vove7/ParamRegexNdk)
+
 # ParamRegexEngine-NDK
 
 匹配形如 `@{city}的?天气` 的'正则式'
