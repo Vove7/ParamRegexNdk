@@ -113,7 +113,7 @@ long parseChineseNumber(const wstring &text) {
     for (int i = 0; i < text.size(); i++) {
         wchar_t c = text[i];
         long cu = cUnit[c];
-        if (cu != NULL) {
+        if (cu != 0) {
             stk.push(poolS(&stk, cu) * cu);
         } else {
             long n = u2l(c);
