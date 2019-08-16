@@ -4,7 +4,7 @@
 
 > NDK版[ParamRegexEngine](https://github.com/Vove7/ParamRegexEngine)，用于加快解析速度。
 
-> 在新建实例下，性能约Kotlin版两倍。在大量性能表现更优好。
+> 在新建实例下，性能约Kotlin版两倍。在大量测试用例下性能表现更优。
 
 ## 需求
 
