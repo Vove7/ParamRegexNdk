@@ -162,7 +162,7 @@ public:
                     if (regIndex + 1 < l) { //未超出
                         wstring s = L"*+?";
                         if (s.find(regex[regIndex + 1]) != string::npos) {
-                            TextNode *singleCharNode = new TextNode(i2s(regex[regIndex]));
+                            TextNode *singleCharNode = new TextNode(regex.substr(regIndex, 1));
                             regIndex = singleCharNode->buildMatchCount(++regIndex, regex);
                             buildNode(&sb, list);
                             linkBack(list, singleCharNode);
@@ -201,7 +201,6 @@ public:
         auto *matchList = new map<string, string>();
 
         int endIndex = 0;
-        int i = 0;
 
         if (regNodeList == nullptr) {
             regNodeList = buildRegNodeList();
@@ -209,10 +208,9 @@ public:
 
         int size = static_cast<int>(regNodeList->size());
         log("NODE SIZE: " + i2s(size));
-        int j;
-        for (j = 0; j < size; j++) {
+        for (int j = 0; j < size; j++) {
             RegNode *it = (*regNodeList)[j];
-            endIndex = it->match(text, endIndex, get_or_null(regNodeList, ++i));
+            endIndex = it->match(text, endIndex, it->nextNode);
             if (endIndex < 0) {
                 return nullptr;
             }
