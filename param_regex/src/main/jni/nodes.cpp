@@ -136,7 +136,7 @@ public:
             }
         }
         if (startIndex == endIndex) {
-            throw ("未匹配到数字");
+            return -1;
         }
         matchValue = s.substr(startIndex, endIndex - startIndex);//√
         return endIndex;

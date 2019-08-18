@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
                 "(打开|显示|下拉)?通知栏" to "通知栏",
                 "(打开|显示|下拉)通知栏" to "通知栏",
                 "[0-9]*(你)?好@{a}?啦@{#num1}分@{#num2}" to "131好123啦38分二十五",
-                "(扫描|识别)(屏幕(上的)?)?(二维码|条形?码)" to "识别屏幕二维码"
+                "(扫描|识别)(屏幕(上的)?)?(二维码|条形?码)" to "识别屏幕二维码",
+                "(#楼)?过道" to "1楼过道"
         )
 
         spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, examples.map { it.first })
