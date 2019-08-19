@@ -33,6 +33,9 @@ public:
     virtual bool isParamNode() {
         return false;
     }
+    virtual bool isGroupNode() {
+        return false;
+    }
 
     int buildMatchCount(int index, wstring s) {
         if (index >= s.size())
@@ -329,21 +332,26 @@ public:
 class GroupNode : public RegNode {
 
 public:
+    string name = "_";
     vector<RegNode *> *subNodeList = NULL;
 
     ~GroupNode() {
         delete subNodeList;
     }
 
+    bool isGroupNode() {
+        return true;
+    }
     void setNodeList(vector<RegNode *> *l) {
         subNodeList = l;
     }
 
     int match(wstring s, int startIndex, RegNode *nextNode) {
         if (startIndex == s.size()) {
-            if (minMatchCount == 0)
+            matchValue = L"";
+            if (minMatchCount == 0){
                 return startIndex;
-
+            }
             else return -1;
         }
         if (startIndex >= s.size() && minMatchCount != 0)

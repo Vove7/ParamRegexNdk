@@ -54,6 +54,8 @@ public:
         sb->Clear();
     }
 
+    int groupIndex = 1;
+
     vector<RegNode *> *buildRegNodeList() {
         auto *list = new vector<RegNode *>();
         unsigned long l = regex.size();
@@ -66,6 +68,7 @@ public:
                     regIndex++;
                     int b = regIndex;
                     GroupNode *group = new GroupNode();
+                    group->name = "g" + i2s(groupIndex++);
                     groupStack.push(group);
                     group->setNodeList(buildRegNodeList());
                     groupStack.pop();
@@ -222,6 +225,11 @@ public:
                 } else {
                     (*matchList)[p->name] = ws2s(it->matchValue);
                 }
+            } else if (it->isGroupNode()) {
+                GroupNode *p = dynamic_cast<GroupNode *>(it);
+//                if (p->name != "_") {
+                    (*matchList)[p->name] = ws2s(it->matchValue);
+//                }
             }
         }
 
