@@ -20,15 +20,15 @@ JNIEXPORT jobject JNICALL Java_cn_vove7_paramregex_ParamRegex_match
             return ToHashMap(env, result);
         else return nullptr;
     }
-    catch (const char* e) {//抛出java 异常
+    catch (const char *e) {//抛出java 异常
         jclass clazz = env->FindClass("java/lang/Exception");
         env->ThrowNew(clazz, e);
     }
-    catch (const string& e) {//抛出java 异常
+    catch (const string &e) {//抛出java 异常
         jclass clazz = env->FindClass("java/lang/Exception");
         env->ThrowNew(clazz, e.c_str());
     }
-    catch (...){
+    catch (...) {
         jclass clazz = env->FindClass("java/lang/Exception");
         env->ThrowNew(clazz, "未知错误");
     }

@@ -36,12 +36,15 @@ std::wstring s2ws(const std::string &s) {
 
 
 std::string js2s(JNIEnv *env, jstring jstr) {
-    char *rtn = NULL;
     jclass clsstring = env->FindClass("java/lang/String");
     jstring strencode = env->NewStringUTF("UTF-8");
     jmethodID mid = env->GetMethodID(clsstring, "getBytes", "(Ljava/lang/String;)[B");
     jbyteArray barr = (jbyteArray) env->CallObjectMethod(jstr, mid, strencode);
     jsize alen = env->GetArrayLength(barr);
+    if (alen == 0) {
+        return "";
+    }
+    char *rtn = NULL;
     jbyte *ba = env->GetByteArrayElements(barr, JNI_FALSE);
     if (alen > 0) {
         rtn = (char *) malloc(alen + 1);

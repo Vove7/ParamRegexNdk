@@ -153,7 +153,8 @@ public:
                     ParamNode *paramNode = new ParamNode();
                     paramNode->regText = L"%";
                     paramNode->name = "%" + i2s(findParamIndex(regIndex));
-
+                    paramNode->minMatchCount = 0;
+                    paramNode->maxMatchCount = MAX_INT;
                     regIndex = paramNode->buildMatchCount(++regIndex, regex);
                     linkBack(list, paramNode);
                 }
