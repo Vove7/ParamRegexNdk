@@ -33,7 +33,7 @@ dependencies {
     implementation project(':param_regex')
 
     //kotlin 版 ParamRegexEngine
-    implementation 'com.github.Vove7:ParamRegexEngine:0.0.4'
+    implementation 'com.github.Vove7:ParamRegexEngine:0.0.5'
 }
 repositories {
     maven { url 'https://jitpack.io' }

@@ -145,10 +145,23 @@ public:
                 case '#': {
                     buildNode(&sb, list);
                     ParamNode *paramNode = new ParamNode();
-                    paramNode->regText = L"#";
-                    paramNode->onlyNumber = true;
-                    regIndex = paramNode->buildMatchCount(++regIndex, regex);
-                    linkBack(list, paramNode);
+                    if (regIndex + 1 < l && regex[regIndex + 1] == '{') {
+                        int index = regex.find('}', regIndex + 2);
+                        if (index < 0) {
+                            throw ("未匹配到'}' after #{ at index " + i2s(regIndex));
+                        }
+                        paramNode->minMatchCount = 1;
+                        paramNode->onlyNumber = true;
+                        paramNode->name = ws2s(regex.substr(regIndex + 2, index - regIndex - 2));
+                        regIndex = paramNode->buildMatchCount(index + 1, regex);
+                        linkBack(list, paramNode);
+                    } else {
+                        paramNode->regText = L"#";
+                        paramNode->name = "#" + i2s(findNumCharIndex(regIndex));
+                        paramNode->onlyNumber = true;
+                        regIndex = paramNode->buildMatchCount(++regIndex, regex);
+                        linkBack(list, paramNode);
+                    }
                 }
                     break;
                 case '%': {
@@ -186,10 +199,18 @@ public:
         return list;
     }
 
+    int findNumCharIndex(int index) {
+        return findIndexOfChar('#', index);
+    }
+
     int findParamIndex(int index) {
-        int ii = 0;
+        return findIndexOfChar('%', index);
+    }
+
+    int findIndexOfChar(char c, int index) {
+        int ii = 1;
         for (int i = 0; i != index; i++) {
-            if (regex[i] == '%') {
+            if (regex[i] == c) {
                 ii++;
             }
         }
@@ -218,25 +239,32 @@ public:
             if (endIndex < 0) {
                 return nullptr;
             }
-            if (it->isParamNode()) {
-                ParamNode *p = dynamic_cast<ParamNode *>(it);
-                if (((ParamNode *) it)->onlyNumber) {
-                    (*matchList)[p->name] = l2s(toNum(it->matchValue));
-                } else {
-                    (*matchList)[p->name] = ws2s(it->matchValue);
-                }
-            } else if (it->isGroupNode()) {
-                GroupNode *p = dynamic_cast<GroupNode *>(it);
-//                if (p->name != "_") {
-                    (*matchList)[p->name] = ws2s(it->matchValue);
-//                }
-            }
+            buildResultMap(it, matchList);
         }
 
         if (endIndex >= text.size()) {
             return matchList;
         }
         return NULL;
+    }
+
+    void buildResultMap(RegNode *it, map<string, string> *matchList) {
+        if (it->isParamNode()) {
+            ParamNode *p = dynamic_cast<ParamNode *>(it);
+            if (((ParamNode *) it)->onlyNumber) {
+                (*matchList)[p->name] = l2s(toNum(it->matchValue));
+            } else {
+                (*matchList)[p->name] = ws2s(it->matchValue);
+            }
+        } else if (it->isGroupNode()) {
+            GroupNode *p = dynamic_cast<GroupNode *>(it);
+            (*matchList)[p->name] = ws2s(it->matchValue);
+            vector<RegNode *> *subNodes = ((GroupNode *) it)->subNodeList;
+            int size = subNodes->size();
+            for (int i = 0; i < size; i++) {
+                buildResultMap((*subNodes)[i], matchList);
+            }
+        }
     }
 };
 
